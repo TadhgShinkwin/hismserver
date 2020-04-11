@@ -8,6 +8,6 @@ fn main() -> std::io::Result<()> {
     env::set_var("RUST_LOG", "actix_web=info");
     env_logger::init();
     let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
-    let app = site_actix::Site::new(8998);
+    let app = hismserver::Site::new(8998);
     app.run(database_url)
 }
