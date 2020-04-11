@@ -8,4 +8,6 @@
   <h3><code>hismserver</code></h3>
 
   <strong> This is the backend server and database for hism </strong>
+  <p> to run this server you will need rust and cargo installed. type cargo run in the project folder from a command line  and it will run on a localhost at port 8998</p>
+  
 
