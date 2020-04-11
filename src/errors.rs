@@ -3,8 +3,6 @@ use actix_web::web::HttpResponse;
 use diesel::result::DatabaseErrorKind::UniqueViolation;
 use diesel::result::Error::{DatabaseError, NotFound};
 use std::fmt;
-use actix_web::App;
-
 
 //we want to return an error code and a message instead of continuing to process the
 // request. This is a natural use case for an enumerated type.
@@ -65,6 +63,7 @@ impl actix_web::ResponseError for AppError {
             AppError::RecordNotFound => HttpResponse::NotFound(),
             _ => HttpResponse::InternalServerError(),
         };
+        builder.json(ErrorResponse { err })
     }
         //The trait also has a method render_response which has a default implementation, but the default overrides the content type and data which is not what we want.
         fn render_response(&self) -> HttpResponse {

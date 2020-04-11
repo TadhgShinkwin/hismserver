@@ -11,14 +11,14 @@ type Result<T> = std::result::Result<T, AppError>;
 
 //Identifiable: is a trait that indicates that this struct represents a single row in a
 // database table. It assumes a primary key named id but you can configure this.
-#[derive(Queryable, Identifiable, Serialize, Debug, ParitalEq)]
+#[derive(Queryable, Identifiable, Serialize, Debug, PartialEq)]
 //We need a Rust struct to represent a user in the database
 pub struct User {
     pub id: i32,
     pub username: String,
 }
 
-pub fn create_user(conn: &SqliteConnection, username: &str) -> result<User> {
+pub fn create_user(conn: &SqliteConnection, username: &str) -> Result<User> {
     //The connection type supports a method transaction which takes a closure. The closure must return a Result.
     conn.transaction(|| {
         diesel::insert_into(users::table)
@@ -33,7 +33,7 @@ pub fn create_user(conn: &SqliteConnection, username: &str) -> result<User> {
             .select((users::id, users::username))
             .first(conn)
             //uses the function signature to determine what to transform the error into.
-            .mapp_err(Into::into)
+            .map_err(Into::into)
     })
 }
 
@@ -52,7 +52,7 @@ pub fn find_user<'a>(conn: &SqliteConnection,key: UserKey<'a>) -> Result<User> {
         UserKey::ID(id) => users::table
             .find(id)
             .select((users::id, users::username))
-            .first::<Users>(conn)
+            .first::<User>(conn)
             .map_err(Into::into),
     }
 }

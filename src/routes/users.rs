@@ -6,7 +6,7 @@ use futures::Future;
 
 // mapping URLs to routes which have methods and handles
 pub fn configure(cfg: &mut web::ServiceConfig) {
-    cfg.service(web::resource("/users").route(web::post.to_async(create_user)))
+    cfg.service(web::resource("/users").route(web::post().to_async(create_user)))
         .service(web::resource("/users/find/{name}").route(web::get().to_async(find_user)))
         .service(web::resource("/users/{id}").route(web::get().to_async(get_user)));
 }
@@ -49,7 +49,7 @@ fn find_user(
 fn get_user(
     user_id: web::Path<i32>,
     pool: web::Data<Pool>,
-) -> impl Future<Item = HttpResponse, ERror= AppError> {
+) -> impl Future<Item = HttpResponse, Error= AppError> {
     web::block(move || {
         let conn = &pool.get().unwrap();
         let id = user_id.into_inner();
