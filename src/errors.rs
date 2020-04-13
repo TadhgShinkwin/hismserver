@@ -55,6 +55,7 @@ struct ErrorResponse {
     err: String,
 }
 //Actix web defines a trait ResponseError which allows you to specify how the type inside a Err variant of a Result gets turned into a response.
+
 impl actix_web::ResponseError for AppError {
     fn error_response(&self) -> HttpResponse {
         let err = format!("{}", self);
@@ -66,8 +67,8 @@ impl actix_web::ResponseError for AppError {
         builder.json(ErrorResponse { err })
     }
         //The trait also has a method render_response which has a default implementation, but the default overrides the content type and data which is not what we want.
-        fn render_response(&self) -> HttpResponse {
+/*        fn render_response(&self) -> HttpResponse {
             self.error_response()
-        }
+        }*/
 
 }

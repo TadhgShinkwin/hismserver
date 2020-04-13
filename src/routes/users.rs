@@ -2,7 +2,7 @@ use crate::errors::AppError;
 use crate::routes::convert;
 use crate::{models, Pool};
 use actix_web::{web, HttpResponse};
-use futures::Future;
+use futures::{Future, FutureExt};
 
 // mapping URLs to routes which have methods and handles
 pub fn configure(cfg: &mut web::ServiceConfig) {
